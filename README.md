@@ -7,8 +7,8 @@ I'm using Kibana for view the data, and store classification data into hdfs and 
 
 
 this is the final results and power point
-![video](https://user-images.githubusercontent.com/52092696/104808408-a96ec380-5818-11eb-9bca-5bf976f08c3f.mp4)
+https://drive.google.com/file/d/1pIy4iCfwhfBSoryS5WEk_wD6XFwSwDN2/view?usp=sharing
 
 this is the power point
-![power](https://docs.google.com/presentation/d/1CB2aDSDTxkYPlMu4_3s1IkJ3Q3289ed_DshZF7VocNs/edit?usp=sharing)
+https://docs.google.com/presentation/d/1CB2aDSDTxkYPlMu4_3s1IkJ3Q3289ed_DshZF7VocNs/edit?usp=sharing
 
