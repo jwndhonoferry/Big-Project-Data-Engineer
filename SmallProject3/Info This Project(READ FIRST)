@@ -1,0 +1,7 @@
+This project contains :
+  - how to stream data twitter
+  - using kafka 
+  - create consumer and producer
+  - send to elasticsearch
+  - visualize using kibana
+  - In local computer
