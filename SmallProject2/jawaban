@@ -1,0 +1,90 @@
+1. select (case
+           when extract(month from issue_d) <= 3 then 1
+           when extract(month from issue_d) <= 6 then 2
+           when extract(month from issue_d) <= 9 then 3
+           else 4
+       end) as quartal,
+       extract(year from issue_d) as q_year, sum(loan_amnt) as total_amnt
+   from loans
+   where extract(year from issue_d) > '2008'
+   GROUP BY extract(year from issue_d), quartal
+   ORDER BY extract(year from issue_d), quartal;
+
+2. select  count(addr_state) as sum_cust_state, addr_state, sum(loan_amnt) as total_amnt, extract(year from issue_d) as l_year
+   from loans
+   where extract(year from issue_d) = '2015'
+   group by addr_state, l_year
+   order by total_amnt;
+
+3. select  extract(year from issue_d) as l_year, grade, count(grade) as grade_count, sum(loan_amnt) as total_amnt
+   from loans group by l_year, grade;
+
+4. select  extract(year from issue_d) as l_year, grade, count(grade) as grade_count, avg(loan_amnt) as total_amnt
+      from loans group by l_year, grade;
+
+5. -- select  avg(annual_inc) as avg_ann_inc, extract(year from issue_d) as l_year, extract(year from last_pymnt_d) as last_pymnt_year, (last_pymnt_d - issue_d)/(365 / 12) as dist_pymnt_month, cast(left(term, 2) as int) as month_limit_term
+   -- from loans
+   -- where loan_status like 'Fully Paid'
+   -- group by issue_d,term, last_pymnt_d
+   -- order by l_year;
+
+   select  avg(annual_inc) as avg_ann_inc, extract(year from last_pymnt_d) as last_pymnt_year
+   from loans
+   where loan_status in ('Fully Paid', 'Current')
+   group by last_pymnt_year
+   order by last_pymnt_year;
+
+6. (select  extract(year from earliest_cr_line) as early_cr_year, extract(year from issue_d) as l_year,
+        (issue_d - earliest_cr_line)/(365) as dist_cr_year, (issue_d - earliest_cr_line)/(365 / 12) as dist_cr_month
+   from loans
+   where loan_status in ('Charged Off')
+   order by dist_cr_year desc limit 1)
+   UNION all
+   (select  extract(year from earliest_cr_line) as early_cr_year, extract(year from issue_d) as l_year,
+        (issue_d - earliest_cr_line)/(365) as dist_cr_year, (issue_d - earliest_cr_line)/(365 / 12) as dist_cr_month
+   from loans
+   where loan_status in ('Charged Off')
+   order by dist_cr_year asc limit 1);
+
+7. select  extract(year from issue_d) as l_year, grade, count(grade) as cnt_grade, avg(loan_amnt) as avg_loan_amnt, sum(loan_amnt) as total_amnt
+      from loans where extract(year from issue_d) = 2015 and loan_status in ('Late (16-30 days)', 'Late (31-120 days)') group by l_year, grade;
+
+8.
+
+
+DASHBOARD
+select distinct(emp_length) from loans;
+
+-- 1 negara mana yang paling banyak
+select addr_state, count(addr_state) as con_state from loans where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off') group by addr_state order by con_state desc;
+
+
+--1  dari query kita tahu orang yang mempunyai loan status buruk adalah orang yang mempunyai pengalaman 10+ tahun, mempunyai rata2 peminjaman dan total peminjaman yang besar
+-- dari orang2 yang pengalamannya dibawah 10 tahun
+
+select emp_length, count(emp_length) as count_emp_length
+from loans
+where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off')
+group by emp_length;
+
+--2 dari query ini kita tahu bahwa jumlah kepemilikan rumah peminjam berdasarkan home_ownership
+select home_ownership, count(home_ownership) as total_home_ownership
+from loans
+where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off') and annual_inc > (select avg(annual_inc) from loans where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off'))
+group by home_ownership;
+
+--3 dari query kita dapat mengetahui berapa persen dari rata2 pendapatan pertahun
+select home_ownership, avg(annual_inc) over (partition by home_ownership order by home_ownership) as avg_ann_inc,
+        annual_inc/sum(annual_inc) over (partition by home_ownership order by home_ownership) * 100 as pct_ann_inc
+from loans
+where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off')
+    and annual_inc > (select avg(annual_inc) from loans where loan_status in ('Late (31-120 days)', 'Late (16-30 days)', 'Charged Off'))
+group by home_ownership, annual_inc;
+
+
+
+
+
+
+
+

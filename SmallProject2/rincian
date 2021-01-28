@@ -1,0 +1,7 @@
+Kekurangan data
+ - Cleaning data kolom description . , "" , ','
+ - StockCode = masih ada yg berupa string 'DOT', 'POST'
+ -
+
+
+Clean description melalui postgresql
