@@ -25,10 +25,10 @@
 //    public static final String name_topic = "tweet_spotify";
 //
 //    public static void TweetMessage(Producer<String, String> producer) throws InterruptedException {
-//        String consumer_key = "rPVgcSXlmHSmH9nuRMz7Hugh9";
-//        String consumer_secret = "fQWTsz1n5KxDJJ9fatNMxFeFxnSm1YmPM706EyW7ac5yrTsinF";
-//        String access_token = "2401826684-ltRNlBUfHbyD3irdwXRpPotlv6e2cqCNdVFX9ld";
-//        String access_token_secret = "izoNEtlVg5LSBwIHKtlMvLNV6qlkLB79gNzDhqB9OTfG9";
+//        String consumer_key = "";
+//        String consumer_secret = "";
+//        String access_token = "";
+//        String access_token_secret = "";
 //
 //        KeyedMessage<String, String> message = null;
 //
